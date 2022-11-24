@@ -9,6 +9,7 @@ using System;
 using Terraria;
 using AVRelay;
 using System.Runtime.CompilerServices;
+using TShockAPI.Hooks;
 
 namespace AVRelay
 {
@@ -50,7 +51,13 @@ namespace AVRelay
             ServerApi.Hooks.GameInitialize.Register(this, GameInit);
             ServerApi.Hooks.NetGreetPlayer.Register(this, GreetPlayer);
             ServerApi.Hooks.ServerLeave.Register(this, ExitPlayer);
+            TShockAPI.Hooks.PlayerHooks.PlayerChat += OnPlayerChat;
 
+        }
+
+        private void OnPlayerChat(PlayerChatEventArgs e)
+        {
+            AVDiscord.UserChat(e.Player, e.RawText);
         }
 
         private void ExitPlayer(LeaveEventArgs args)

@@ -23,6 +23,7 @@ namespace AVRelay
         public static DiscordSocketClient _client;
         public static CommandService _commands;
         public static ulong channelID = 1036700609925099541;
+        public static IMessageChannel channel = _client.GetChannel(channelID) as IMessageChannel;
         public async Task MainAsync()
         {
             if (AVRelay.Config.EnableDiscord)
@@ -37,7 +38,7 @@ namespace AVRelay
                 await _client.LoginAsync(TokenType.Bot, token);
                 await _client.StartAsync();
                 await _client.SetActivityAsync(new Game($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!", ActivityType.Playing));
-                await CommandHandler.InstallCommandsAsync();
+                await channel.SendMessageAsync(":green_circle: **This server is now online!**");
 
                 // Block this task until the program is closed.
                 await Task.Delay(-1);
@@ -87,6 +88,15 @@ namespace AVRelay
                 await arg.RespondAsync("Command executed!");
             }
 
+
+            if (arg.CommandName == "joinserver")
+            {
+                var cmd = arg.Data.Options.First().Value;
+                var runningUser = (SocketGuildUser)arg.User;
+
+                await arg.RespondAsync($"You can join the server with the following IP: {AVRelay.Config.serverIp} Port: {AVRelay.Config.serverPort}");
+            }
+
         }
 
         public async Task clientReady()
@@ -99,11 +109,19 @@ namespace AVRelay
                 onlinePlayers.WithDescription("Get a list of players online!");
                 applicationCommandProperties.Add(onlinePlayers.Build());
 
+                var serverInfo = new SlashCommandBuilder();
+                onlinePlayers.WithName("joinserver");
+                onlinePlayers.WithDescription("Retrieves the server info to connect.");
+                applicationCommandProperties.Add(serverInfo.Build());
+
+
                 var runCommand = new SlashCommandBuilder();
                 runCommand.WithName("cmd");
                 runCommand.WithDescription("Run a command! (MANAGER ONLY)");
                 runCommand.AddOption("command", ApplicationCommandOptionType.String, "Enter a command to run, along with its arguments");
                 applicationCommandProperties.Add(runCommand.Build());
+
+
 
                 await _client.BulkOverwriteGlobalApplicationCommandsAsync(applicationCommandProperties.ToArray());
             }
@@ -121,18 +139,21 @@ namespace AVRelay
 
         public static async void UserJoined(TSPlayer player)
         {
-            var channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{player.Name}** has joined the game!");
+            await channel.SendMessageAsync($"**{TShock.Config.Settings.ServerName}>**  :small_blue_diamond:  **{player.Name}** has joined the game!");
 
 
         }
 
+        public static async void UserChat(TSPlayer player, string message)
+        {
+            await channel.SendMessageAsync($"> **{TShock.Config.Settings.ServerName}>** **{player.Group.Prefix}** {player.Name}: {message}");
+        }
+
         public static async void UserLeft(TSPlayer player)
         {
-            var channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{player.Name}** has left the game!");
+            await channel.SendMessageAsync($"**{TShock.Config.Settings.ServerName}>**  :small_orange_diamond:  **{player.Name}** has left the game!");
 
 
         }
