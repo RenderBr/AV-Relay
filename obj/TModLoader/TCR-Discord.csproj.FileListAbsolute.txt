@@ -1,0 +1,11 @@
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\bin\TModLoader\TCR-Discord.dll.config
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\bin\TModLoader\TCR-Discord.dll
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\bin\TModLoader\TCR-Discord.pdb
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\bin\TModLoader\TCR-TerrariaChatRelay.dll
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\bin\TModLoader\websocket-sharp.dll
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\bin\TModLoader\TCR-TerrariaChatRelay.pdb
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\obj\TModLoader\TCR-Discord.csproj.AssemblyReference.cache
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\obj\TModLoader\TCR-Discord.csproj.CoreCompileInputs.cache
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\obj\TModLoader\TCR-Discord.csproj.CopyComplete
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\obj\TModLoader\TCR-Discord.dll
+C:\Users\Julian\Documents\GitHub\TCR-TerrariaChatRelay\TCR-Discord\obj\TModLoader\TCR-Discord.pdb

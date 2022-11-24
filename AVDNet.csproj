@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TCRDiscord</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TShock|AnyCPU'">
+    <OutputPath>bin\TShock\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\TShock\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TModLoader|AnyCPU'">
+    <OutputPath>bin\TModLoader\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\TModLoader\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="3.8.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="OTAPI.Upcoming" Version="3.1.20" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="TSAPI" Version="5.1.2" />
+    <PackageReference Include="TShock" Version="5.1.2" />
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)' == 'TShock' ">
+      <PropertyGroup>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration)' == 'TModLoader' ">
+      <PropertyGroup>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+      </PropertyGroup>
+    </When>
+  </Choose>
+</Project>
