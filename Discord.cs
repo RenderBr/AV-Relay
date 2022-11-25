@@ -5,6 +5,7 @@ using Discord.Interactions;
 using Discord.Net;
 using Discord.WebSocket;
 using Google.Protobuf.WellKnownTypes;
+using IL.Terraria.DataStructures;
 using IL.Terraria.Localization;
 using MySqlX.XDevAPI;
 using Newtonsoft.Json;
@@ -38,6 +39,7 @@ namespace AVRelay
                 _client = new DiscordSocketClient();
                 _client.Log += Log;
                 _client.Ready += clientReady;
+                _client.MessageReceived += discordChat;
                 _client.SlashCommandExecuted += SlashCommandHandler;
 
                 var token = AVRelay.Config.Token;
@@ -53,6 +55,23 @@ namespace AVRelay
 
             }
 
+        }
+
+        private async Task discordChat(SocketMessage arg)
+        {
+            if(arg.Channel == channel) {
+                if (arg.Author.IsBot)
+                {
+                    return;
+                }
+
+                AVRelay.RelayMessage(arg.Author.Username, arg.CleanContent);
+                return;
+            }
+            else
+            {
+                return;
+            }
         }
 
         private async Task SlashCommandHandler(SocketSlashCommand arg)
