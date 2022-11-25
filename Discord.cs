@@ -5,16 +5,23 @@ using Discord.Interactions;
 using Discord.Net;
 using Discord.WebSocket;
 using Google.Protobuf.WellKnownTypes;
+using IL.Terraria.Localization;
 using MySqlX.XDevAPI;
 using Newtonsoft.Json;
+using On.Terraria.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Localization;
+using Terraria.UI.Chat;
+using TerrariaApi.Server;
 using TShockAPI;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AVRelay
 {
@@ -22,8 +29,8 @@ namespace AVRelay
     {
         public static DiscordSocketClient _client;
         public static CommandService _commands;
-        public static ulong channelID = 1036700609925099541;
-        public static IMessageChannel channel = _client.GetChannel(channelID) as IMessageChannel;
+        public static ulong channelID = ulong.Parse(AVRelay.Config.channelId);
+        public static IMessageChannel channel;
         public async Task MainAsync()
         {
             if (AVRelay.Config.EnableDiscord)
@@ -34,7 +41,7 @@ namespace AVRelay
                 _client.SlashCommandExecuted += SlashCommandHandler;
 
                 var token = AVRelay.Config.Token;
-
+                channel = _client.GetChannel(channelID) as IMessageChannel;
                 await _client.LoginAsync(TokenType.Bot, token);
                 await _client.StartAsync();
                 await _client.SetActivityAsync(new Game($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!", ActivityType.Playing));
@@ -110,8 +117,8 @@ namespace AVRelay
                 applicationCommandProperties.Add(onlinePlayers.Build());
 
                 var serverInfo = new SlashCommandBuilder();
-                onlinePlayers.WithName("joinserver");
-                onlinePlayers.WithDescription("Retrieves the server info to connect.");
+                serverInfo.WithName("joinserver");
+                serverInfo.WithDescription("Retrieves the server info to connect.");
                 applicationCommandProperties.Add(serverInfo.Build());
 
 
@@ -139,21 +146,26 @@ namespace AVRelay
 
         public static async void UserJoined(TSPlayer player)
         {
+            channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{TShock.Config.Settings.ServerName}>**  :small_blue_diamond:  **{player.Name}** has joined the game!");
+            await channel.SendMessageAsync($"**{AVRelay.Config.serverName}>**  :small_blue_diamond:  **{player.Name}** has joined the game!");
 
 
         }
 
-        public static async void UserChat(TSPlayer player, string message)
+        public static async void UserChat(TSPlayer player, string message, string input)
         {
-            await channel.SendMessageAsync($"> **{TShock.Config.Settings.ServerName}>** **{player.Group.Prefix}** {player.Name}: {message}");
+            channel = _client.GetChannel(channelID) as IMessageChannel;
+
+
+            await channel.SendMessageAsync($"> **{AVRelay.Config.serverName}>** **{input}** {player.Name}: {message}");
         }
 
         public static async void UserLeft(TSPlayer player)
         {
+            channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{TShock.Config.Settings.ServerName}>**  :small_orange_diamond:  **{player.Name}** has left the game!");
+            await channel.SendMessageAsync($"**{AVRelay.Config.serverName}>**  :small_orange_diamond:  **{player.Name}** has left the game!");
 
 
         }

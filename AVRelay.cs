@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using Discord;
 using System.Threading.Tasks;
-using Discord.WebSocket;
-using Discord.Commands;
 using TerrariaApi.Server;
 using TShockAPI;
 using System;
@@ -10,6 +7,10 @@ using Terraria;
 using AVRelay;
 using System.Runtime.CompilerServices;
 using TShockAPI.Hooks;
+using System.Text.RegularExpressions;
+using Terraria.UI.Chat;
+using Microsoft.Xna.Framework;
+using System.Linq;
 
 namespace AVRelay
 {
@@ -57,7 +58,14 @@ namespace AVRelay
 
         private void OnPlayerChat(PlayerChatEventArgs e)
         {
-            AVDiscord.UserChat(e.Player, e.RawText);
+            var input = "";
+            foreach(var b in ChatManager.ParseMessage(e.Player.Group.Prefix, Color.White).ToList())
+            {
+                input += b.Text;
+            }
+            input = ChatManager.ParseMessage(input, Color.White)[0].Text;
+
+            AVDiscord.UserChat(e.Player, e.RawText, input);
         }
 
         private void ExitPlayer(LeaveEventArgs args)

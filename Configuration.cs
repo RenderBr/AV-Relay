@@ -16,6 +16,9 @@ namespace AVRelay
 		public bool EnableDiscord { get; set; } = true;
 		[JsonProperty(Order = 50)]
 		public string Token { get; set; } = "TOKEN";
+		public string channelId { get; set; } = "CHANNEL ID";
+
+		public string serverName = "Freebuild";
 		public string serverIp { get; set; } = "127.0.0.1";
 		public string serverPort { get; set; } = "7777";
 
