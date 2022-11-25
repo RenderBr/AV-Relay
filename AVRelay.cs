@@ -56,10 +56,9 @@ namespace AVRelay
 
         }
 
-        public bool RelayMessage(string username, string message)
+        public static void RelayMessage(string username, string message)
         {
             TSPlayer.All.SendMessage($"[c/5539CC:Discord>] {username}: {message}", Color.White);
-            return true;
         }
 
         private void OnPlayerChat(PlayerChatEventArgs e)

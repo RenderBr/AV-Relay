@@ -36,11 +36,17 @@ namespace AVRelay
         {
             if (AVRelay.Config.EnableDiscord)
             {
-                _client = new DiscordSocketClient();
+                var config = new DiscordSocketConfig()
+                {
+                    GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+                    
+                };
+
+                _client = new DiscordSocketClient(config);
                 _client.Log += Log;
                 _client.Ready += clientReady;
-                _client.MessageReceived += discordChat;
                 _client.SlashCommandExecuted += SlashCommandHandler;
+                _client.MessageReceived += discordChat;
 
                 var token = AVRelay.Config.Token;
                 channel = _client.GetChannel(channelID) as IMessageChannel;
@@ -59,11 +65,15 @@ namespace AVRelay
 
         private async Task discordChat(SocketMessage arg)
         {
-            if(arg.Channel == channel) {
-                if (arg.Author.IsBot)
-                {
+            if (arg is not SocketUserMessage userMessage)
+                return;
+
+            if (arg.Channel == channel) {
+                if (userMessage.Author is not SocketGuildUser user)
                     return;
-                }
+
+                if (user.IsBot || user.IsWebhook)
+                    return;
 
                 AVRelay.RelayMessage(arg.Author.Username, arg.CleanContent);
                 return;
