@@ -163,9 +163,19 @@ namespace AVRelay
 
         public static async void UserLeft(TSPlayer player)
         {
+            if(player == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(player.Name))
+            {
+                return;
+            }
+
             channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{AVRelay.Config.serverName}>**  :small_orange_diamond:  **{player.Name}** has left the game!");
+            await channel.SendMessageAsync($"**{AVRelay.Config.serverName}>**  :small_orange_diamond:  **{player?.Name}** has left the game!");
 
 
         }
