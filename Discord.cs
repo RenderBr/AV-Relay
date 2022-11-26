@@ -177,8 +177,18 @@ namespace AVRelay
         {
             channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{AVRelay.Config.serverName}>**  :small_blue_diamond:  **{player.Name}** has joined the game!");
+            var embedded = new EmbedBuilder
+            {
+                // Embed property can be set within object initializer
+                Title = $"**{AVRelay.Config.serverName}** - {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} players",
+                Description = $"{player.Name} has joined the game!",
+                Color = Color.Green
 
+            };
+
+
+
+            await channel.SendMessageAsync(embed: embedded.Build());
 
         }
 
@@ -186,8 +196,16 @@ namespace AVRelay
         {
             channel = _client.GetChannel(channelID) as IMessageChannel;
 
+            var embedded = new EmbedBuilder
+            {
+                // Embed property can be set within object initializer
+                Title = $"**{AVRelay.Config.serverName}** **{input}** {player.Name}: {message}",
+                Color = AVRelay.Config.rgbServerColor
+                
+            };
 
-            await channel.SendMessageAsync($"> **{AVRelay.Config.serverName}>** **{input}** {player.Name}: {message}");
+
+            await channel.SendMessageAsync(embed: embedded.Build());
         }
 
         public static async void UserLeft(TSPlayer player)
@@ -204,7 +222,20 @@ namespace AVRelay
 
             channel = _client.GetChannel(channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-            await channel.SendMessageAsync($"**{AVRelay.Config.serverName}>**  :small_orange_diamond:  **{player?.Name}** has left the game!");
+
+
+            var embedded = new EmbedBuilder
+            {
+                // Embed property can be set within object initializer
+                Title = $"**{AVRelay.Config.serverName}** - {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} players",
+                Description = $"{player.Name} has left the game!",
+                Color = Color.Red
+
+            };
+
+
+
+            await channel.SendMessageAsync(embed: embedded.Build()) ;
 
 
         }

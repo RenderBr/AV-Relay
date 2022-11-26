@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Discord;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,8 @@ namespace AVRelay
 		[JsonProperty(Order = 50)]
 		public string Token { get; set; } = "TOKEN";
 		public string channelId { get; set; } = "CHANNEL ID";
+
+		public Color rgbServerColor { get; set; } = Color.Blue;
 
 		public string serverName = "Freebuild";
 		public string serverIp { get; set; } = "127.0.0.1";
