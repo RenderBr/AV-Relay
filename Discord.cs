@@ -199,7 +199,7 @@ namespace AVRelay
             var embedded = new EmbedBuilder
             {
                 // Embed property can be set within object initializer
-                Title = $"**{AVRelay.Config.serverName}** **{input}** {player.Name}: {message}",
+                Description = $"**{AVRelay.Config.serverName}** **{input}** {player.Name}: {message}",
                 Color = AVRelay.Config.rgbServerColor
                 
             };
