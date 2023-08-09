@@ -1,243 +1,178 @@
 ﻿using Discord;
-using Discord.API;
-using Discord.Commands;
-using Discord.Interactions;
 using Discord.Net;
 using Discord.WebSocket;
-using Google.Protobuf.WellKnownTypes;
-using IL.Terraria.DataStructures;
-using IL.Terraria.Localization;
-using MySqlX.XDevAPI;
-using Newtonsoft.Json;
-using On.Terraria.Localization;
 using System;
 using System.Collections.Generic;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Terraria;
-using Terraria.Localization;
-using Terraria.UI.Chat;
-using TerrariaApi.Server;
 using TShockAPI;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AVRelay
 {
     public class AVDiscord
     {
-        public static DiscordSocketClient _client;
-        public static CommandService _commands;
-        public static ulong channelID = ulong.Parse(AVRelay.Config.channelId);
-        public static IMessageChannel channel;
+        private static DiscordSocketClient _client;
+        private static ulong _channelID;
+        private static IMessageChannel _channel;
+
         public async Task MainAsync()
         {
-            if (AVRelay.Config.EnableDiscord)
+            if (!AVRelay.Config.EnableDiscord)
+                return;
+
+            _channelID = ulong.Parse(AVRelay.Config.channelId);
+
+            var config = new DiscordSocketConfig
             {
-                var config = new DiscordSocketConfig()
-                {
-                    GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
-                    
-                };
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+            };
 
-                _client = new DiscordSocketClient(config);
-                _client.Log += Log;
-                _client.Ready += clientReady;
-                _client.SlashCommandExecuted += SlashCommandHandler;
-                _client.MessageReceived += discordChat;
+            _client = new DiscordSocketClient(config);
+            _client.Log += Log;
+            _client.Ready += ClientReady;
+            _client.SlashCommandExecuted += SlashCommandHandler;
+            _client.MessageReceived += DiscordChat;
 
-                var token = AVRelay.Config.Token;
-                channel = _client.GetChannel(channelID) as IMessageChannel;
-                await _client.LoginAsync(TokenType.Bot, token);
-                await _client.StartAsync();
-                await _client.SetActivityAsync(new Game($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!", ActivityType.Playing));
-                await channel.SendMessageAsync(":green_circle: **This server is now online!**");
+            var token = AVRelay.Config.Token;
+            _channel = _client.GetChannel(_channelID) as IMessageChannel;
 
-                // Block this task until the program is closed.
-                await Task.Delay(-1);
+            await _client.LoginAsync(TokenType.Bot, token);
+            await _client.StartAsync();
+            await _client.SetActivityAsync(new Game($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!", ActivityType.Playing));
+            await _channel.SendMessageAsync(":green_circle: **This server is now online!**");
 
-
-            }
-
+            await Task.Delay(-1);
         }
 
-        private async Task discordChat(SocketMessage arg)
+        private async Task DiscordChat(SocketMessage arg)
         {
-            if (arg is not SocketUserMessage userMessage)
+            if (!(arg is SocketUserMessage userMessage))
                 return;
 
-            if (arg.Channel == channel) {
-                if (userMessage.Author is not SocketGuildUser user)
-                    return;
-
-                if (user.IsBot || user.IsWebhook)
-                    return;
-
-                AVRelay.RelayMessage(arg.Author.Username, arg.CleanContent);
+            if (arg.Channel != _channel)
                 return;
-            }
-            else
-            {
+
+            if (!(arg.Author is SocketGuildUser user) || user.IsBot || user.IsWebhook)
                 return;
-            }
+
+            AVRelay.RelayMessage(arg.Author.Username, arg.CleanContent);
         }
 
         private async Task SlashCommandHandler(SocketSlashCommand arg)
         {
-            if (arg.CommandName == "who")
+            switch (arg.CommandName)
             {
-                var players = "```";
-                var fullmsg = "";
-      
-
-                for(int i = 0; i < TShock.Utils.GetActivePlayerCount(); i++)
-                {
-                    if(i+1 == TShock.Utils.GetActivePlayerCount())
-                    {
-                        players += TShock.Players[i].Name + "```";
-                        break;
-                    }
-                    players += TShock.Players[i].Name + ", ";
-
-
-                }
-
-                fullmsg += "There are currently: **" + TShock.Utils.GetActivePlayerCount() + " / " + Main.maxNetPlayers + "** users online!";
-                fullmsg += "\n" + players;
-                await arg.RespondAsync(fullmsg);
+                case "who":
+                    await WhoCommand(arg);
+                    break;
+                case "cmd":
+                    await CommandCommand(arg);
+                    break;
+                case "joinserver":
+                    await JoinServerCommand(arg);
+                    break;
             }
+        }
 
-            if (arg.CommandName == "cmd")
+        private async Task WhoCommand(SocketSlashCommand arg)
+        {
+            var players = new List<string>();
+            for (int i = 0; i < TShock.Utils.GetActivePlayerCount(); i++)
+                players.Add(TShock.Players[i].Name);
+
+            var response = new StringBuilder();
+            response.AppendLine($"There are currently: **{TShock.Utils.GetActivePlayerCount()} / {Main.maxNetPlayers}** users online!");
+            response.AppendLine(string.Join(", ", players));
+
+            await arg.RespondAsync(response.ToString());
+        }
+
+        private async Task CommandCommand(SocketSlashCommand arg)
+        {
+            var cmd = arg.Data.Options.First().Value;
+            var runningUser = (SocketGuildUser)arg.User;
+
+            if (runningUser.Roles.Any(x => x.Permissions.Administrator) == false)
+                await arg.RespondAsync("You are not a manager!");
+            else
             {
-                var cmd = arg.Data.Options.First().Value;
-                var runningUser = (SocketGuildUser)arg.User;
-
-                if (runningUser.Roles.Any(x => x.Permissions.Administrator) == false)
-                {
-                    await arg.RespondAsync("You are not a manager!");
-
-                }
-
                 Commands.HandleCommand(TSPlayer.Server, (string)arg.Data.Options.First().Value);
                 await arg.RespondAsync("Command executed!");
             }
-
-
-            if (arg.CommandName == "joinserver")
-            {
-                var cmd = arg.Data.Options.First().Value;
-                var runningUser = (SocketGuildUser)arg.User;
-
-                await arg.RespondAsync($"You can join the server with the following IP: {AVRelay.Config.serverIp} Port: {AVRelay.Config.serverPort}");
-            }
-
         }
 
-        public async Task clientReady()
+        private async Task JoinServerCommand(SocketSlashCommand arg)
         {
-            List<ApplicationCommandProperties> applicationCommandProperties = new();
+            await arg.RespondAsync($"You can join the server with the following IP: {AVRelay.Config.serverIp} Port: {AVRelay.Config.serverPort}");
+        }
+
+        private async Task ClientReady()
+        {
+            var applicationCommandProperties = new List<ApplicationCommandProperties>
+            {
+                new SlashCommandBuilder().WithName("who").WithDescription("Get a list of players online!").Build(),
+                new SlashCommandBuilder().WithName("joinserver").WithDescription("Retrieves the server info to connect.").Build(),
+                new SlashCommandBuilder().WithName("cmd").WithDescription("Run a command! (MANAGER ONLY)")
+                    .AddOption("command", ApplicationCommandOptionType.String, "Enter a command to run, along with its arguments").Build()
+            };
+
             try
             {
-                var onlinePlayers = new SlashCommandBuilder();
-                onlinePlayers.WithName("who");
-                onlinePlayers.WithDescription("Get a list of players online!");
-                applicationCommandProperties.Add(onlinePlayers.Build());
-
-                var serverInfo = new SlashCommandBuilder();
-                serverInfo.WithName("joinserver");
-                serverInfo.WithDescription("Retrieves the server info to connect.");
-                applicationCommandProperties.Add(serverInfo.Build());
-
-
-                var runCommand = new SlashCommandBuilder();
-                runCommand.WithName("cmd");
-                runCommand.WithDescription("Run a command! (MANAGER ONLY)");
-                runCommand.AddOption("command", ApplicationCommandOptionType.String, "Enter a command to run, along with its arguments");
-                applicationCommandProperties.Add(runCommand.Build());
-
-
-
                 await _client.BulkOverwriteGlobalApplicationCommandsAsync(applicationCommandProperties.ToArray());
             }
-            catch(HttpException exception)
+            catch (HttpException exception)
             {
-                var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(exception.Errors, Newtonsoft.Json.Formatting.Indented);
                 Console.WriteLine(json);
             }
-
-
-
-
-
         }
 
         public static async void UserJoined(TSPlayer player)
         {
-            channel = _client.GetChannel(channelID) as IMessageChannel;
+            _channel = _client.GetChannel(_channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
+
             var embedded = new EmbedBuilder
             {
-                // Embed property can be set within object initializer
                 Title = $"**{AVRelay.Config.serverName}** - {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} players",
                 Description = $"{player.Name} has joined the game!",
                 Color = Color.Green
-
             };
 
-
-
-            await channel.SendMessageAsync(embed: embedded.Build());
-
+            await _channel.SendMessageAsync(embed: embedded.Build());
         }
 
         public static async void UserChat(TSPlayer player, string message, string input)
         {
-            channel = _client.GetChannel(channelID) as IMessageChannel;
+            _channel = _client.GetChannel(_channelID) as IMessageChannel;
 
             var embedded = new EmbedBuilder
             {
-                // Embed property can be set within object initializer
                 Description = $"**{AVRelay.Config.serverName}** **{input}** {player.Name}: {message}",
                 Color = AVRelay.Config.rgbServerColor
-                
             };
 
-
-            await channel.SendMessageAsync(embed: embedded.Build());
+            await _channel.SendMessageAsync(embed: embedded.Build());
         }
 
         public static async void UserLeft(TSPlayer player)
         {
-            if(player == null)
-            {
+            if (player == null || string.IsNullOrEmpty(player.Name))
                 return;
-            }
 
-            if (string.IsNullOrEmpty(player.Name))
-            {
-                return;
-            }
-
-            channel = _client.GetChannel(channelID) as IMessageChannel;
+            _channel = _client.GetChannel(_channelID) as IMessageChannel;
             await _client.SetGameAsync($" with {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} active players!");
-
 
             var embedded = new EmbedBuilder
             {
-                // Embed property can be set within object initializer
                 Title = $"**{AVRelay.Config.serverName}** - {TShock.Utils.GetActivePlayerCount()}/{Main.maxNetPlayers} players",
                 Description = $"{player.Name} has left the game!",
                 Color = Color.Red
-
             };
 
-
-
-            await channel.SendMessageAsync(embed: embedded.Build()) ;
-
-
+            await _channel.SendMessageAsync(embed: embedded.Build());
         }
 
         private Task Log(LogMessage msg)
@@ -245,6 +180,5 @@ namespace AVRelay
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
         }
-
     }
 }

@@ -48,22 +48,9 @@
               "target": "Package",
               "version": "[4.7.0, )"
             },
-            "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[0.4.346202, )"
-            },
-            "OTAPI.Upcoming": {
-              "target": "Package",
-              "version": "[3.1.20, )"
-            },
             "System.Data.DataSetExtensions": {
               "target": "Package",
               "version": "[4.5.0, )"
-            },
-            "TSAPI": {
-              "target": "Package",
-              "version": "[5.1.2, )"
             },
             "TShock": {
               "target": "Package",
@@ -86,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

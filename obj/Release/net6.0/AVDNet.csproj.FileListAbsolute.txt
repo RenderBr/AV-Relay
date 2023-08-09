@@ -1,0 +1,12 @@
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\bin\Release\net6.0\HttpServer.dll
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\bin\Release\net6.0\AVDNet.dll.config
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\bin\Release\net6.0\AVDNet.deps.json
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\bin\Release\net6.0\AVDNet.dll
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\bin\Release\net6.0\AVDNet.pdb
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\AVDNet.csproj.AssemblyReference.cache
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\AVDNet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\AVDNet.csproj.CoreCompileInputs.cache
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\AVDNet.dll
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\refint\AVDNet.dll
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\AVDNet.pdb
+C:\Users\Julian\Documents\GitHub\AVTerraria-DNET\obj\Release\net6.0\ref\AVDNet.dll

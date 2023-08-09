@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CIGuKALokIFXZwUV1+G18RDw5k+TVzR2k4Cfdog3ZevY+oTDSkMT312a5nFQMyPEZjC568y0l7vijYdrTqmXNw==",
+  "dgSpecHash": "GRmQu5/1+Op/Sphlw06MvttAOwcSCYzXTeEcnm0tlWTty5a/nb0A18ZvTawUJhcasmlbP5rN0d/usQCSor/R2g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Julian\\Documents\\GitHub\\AVTerraria-DNET\\AVDNet.csproj",
   "expectedPackageFiles": [
@@ -20,7 +20,6 @@
     "C:\\Users\\Julian\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\microsoft.data.sqlite\\6.0.11\\microsoft.data.sqlite.6.0.11.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.11\\microsoft.data.sqlite.core.6.0.11.nupkg.sha512",
-    "C:\\Users\\Julian\\.nuget\\packages\\microsoft.dotnet.upgradeassistant.extensions.default.analyzers\\0.4.346202\\microsoft.dotnet.upgradeassistant.extensions.default.analyzers.0.4.346202.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
@@ -39,7 +38,7 @@
     "C:\\Users\\Julian\\.nuget\\packages\\nuget.packaging\\6.3.1\\nuget.packaging.6.3.1.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\nuget.protocol\\6.3.1\\nuget.protocol.6.3.1.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\nuget.versioning\\6.3.1\\nuget.versioning.6.3.1.nupkg.sha512",
-    "C:\\Users\\Julian\\.nuget\\packages\\otapi.upcoming\\3.1.20\\otapi.upcoming.3.1.20.nupkg.sha512",
+    "C:\\Users\\Julian\\.nuget\\packages\\otapi.upcoming\\3.1.19\\otapi.upcoming.3.1.19.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\portable.bouncycastle\\1.9.0\\portable.bouncycastle.1.9.0.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.0.6\\sqlitepclraw.bundle_e_sqlite3.2.0.6.nupkg.sha512",
     "C:\\Users\\Julian\\.nuget\\packages\\sqlitepclraw.core\\2.0.6\\sqlitepclraw.core.2.0.6.nupkg.sha512",

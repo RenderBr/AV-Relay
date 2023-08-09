@@ -245,12 +245,6 @@
           }
         }
       },
-      "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers/0.4.346202": {
-        "type": "package",
-        "build": {
-          "build/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers.props": {}
-        }
-      },
       "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {
         "type": "package",
         "compile": {
@@ -576,7 +570,7 @@
           }
         }
       },
-      "OTAPI.Upcoming/3.1.20": {
+      "OTAPI.Upcoming/3.1.19": {
         "type": "package",
         "dependencies": {
           "ModFramework": "1.1.7",
@@ -1913,30 +1907,6 @@
         "microsoft.data.sqlite.core.nuspec"
       ]
     },
-    "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers/0.4.346202": {
-      "sha512": "izhSdZtKtsI67Mf3AjM7gXnD6xne1aeGxKPJKifByYFUbr/0uXdRpX3xYABJvub8H5ClcBpSyUQ5wb9oenp15Q==",
-      "type": "package",
-      "path": "microsoft.dotnet.upgradeassistant.extensions.default.analyzers/0.4.346202",
-      "hasTools": true,
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "analyzers/dotnet/cs/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers.Common.dll",
-        "analyzers/dotnet/cs/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers.dll",
-        "analyzers/dotnet/cs/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.CodeFixes.dll",
-        "analyzers/dotnet/vb/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers.Common.dll",
-        "analyzers/dotnet/vb/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers.dll",
-        "analyzers/dotnet/vb/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.CodeFixes.dll",
-        "build/Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers.props",
-        "build/TypeMaps.props",
-        "build/WebTypeReplacements.typemap",
-        "icon.png",
-        "microsoft.dotnet.upgradeassistant.extensions.default.analyzers.0.4.346202.nupkg.sha512",
-        "microsoft.dotnet.upgradeassistant.extensions.default.analyzers.nuspec",
-        "tools/install.ps1",
-        "tools/uninstall.ps1"
-      ]
-    },
     "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {
       "sha512": "ORj7Zh81gC69TyvmcUm9tSzytcy8AVousi+IVRAI8nLieQjOFryRusSFh7+aLk16FN9pQNqJAiMd7BTKINK0kA==",
       "type": "package",
@@ -2300,17 +2270,17 @@
         "nuget.versioning.nuspec"
       ]
     },
-    "OTAPI.Upcoming/3.1.20": {
-      "sha512": "nuWBI9nLsg4VrS1BBW0TrQof4M+YQYE4ldhGSNg86YO1l6FwN6/bqc3nwkv3JRpKJUGR0F2tnLQMGrS3puRZrw==",
+    "OTAPI.Upcoming/3.1.19": {
+      "sha512": "q56ORqw50Sr/bq/D84Xnpz7bxO2cS+6TbqsqJzTumfSL32qUqn4mD9QC8o/o0pFrlaLaC/X41201xU1O4ySdaQ==",
       "type": "package",
-      "path": "otapi.upcoming/3.1.20",
+      "path": "otapi.upcoming/3.1.19",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "COPYING.txt",
         "lib/net6.0/OTAPI.Runtime.dll",
         "lib/net6.0/OTAPI.dll",
-        "otapi.upcoming.3.1.20.nupkg.sha512",
+        "otapi.upcoming.3.1.19.nupkg.sha512",
         "otapi.upcoming.nuspec"
       ]
     },
@@ -4764,10 +4734,7 @@
     "net6.0": [
       "Discord.Net >= 3.8.1",
       "Microsoft.CSharp >= 4.7.0",
-      "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers >= 0.4.346202",
-      "OTAPI.Upcoming >= 3.1.20",
       "System.Data.DataSetExtensions >= 4.5.0",
-      "TSAPI >= 5.1.2",
       "TShock >= 5.1.2"
     ]
   },
@@ -4818,22 +4785,9 @@
             "target": "Package",
             "version": "[4.7.0, )"
           },
-          "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers": {
-            "suppressParent": "All",
-            "target": "Package",
-            "version": "[0.4.346202, )"
-          },
-          "OTAPI.Upcoming": {
-            "target": "Package",
-            "version": "[3.1.20, )"
-          },
           "System.Data.DataSetExtensions": {
             "target": "Package",
             "version": "[4.5.0, )"
-          },
-          "TSAPI": {
-            "target": "Package",
-            "version": "[5.1.2, )"
           },
           "TShock": {
             "target": "Package",
@@ -4856,7 +4810,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
